@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Based on https://github.com/sellerie98/Vibrance
+#
+# Edit dpy/gpu to the appropriate values for your configuration
+#
+# Enter "./linux-nvidia -a; %command%; ./linux-nvidia -d" 
+#   as launch options on csgo in Steam
+# Any additional launch option go between "%command%" but before the ";".
+#
+# See the following for docs around the GpuPowerMizerMode setting
+#   https://gist.github.com/DavidMetcalfe/fabbd2ddcb6ba4927269f6f0db31a92f
+#
+
+if [[ $1 == "--activate" || $1 == "-a" ]]; then
+    nvidia-settings --assign [dpy:5]/DigitalVibrance=1023 > /dev/null
+    nvidia-settings --assign [gpu:0]/GpuPowerMizerMode=1 > /dev/null
+
+    echo "GPU settings active"
+elif [[ $1 == "--deactivate" || $1 == "-d" ]]; then
+    nvidia-settings --assign [dpy:5]/DigitalVibrance=0 > /dev/null
+    nvidia-settings --assign [gpu:0]/GpuPowerMizerMode=2 > /dev/null
+
+    echo "GPU settings inactive"
+else
+    echo "Invalid option - quiting"
+fi
+
